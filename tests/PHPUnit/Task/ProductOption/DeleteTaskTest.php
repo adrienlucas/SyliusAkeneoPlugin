@@ -46,7 +46,9 @@ final class DeleteTaskTest extends AbstractTaskTest
 
         $productOptionRepository = self::$container->get('sylius.repository.product_option');
         /** @var \Sylius\Component\Product\Model\ProductOptionInterface $productOption */
-        $productOption = $productOptionRepository->findOneBy(['code' => 'fakeCode']);
+        $productOption = $productOptionRepository->findOneBy([
+            'code' => 'fakeCode',
+        ]);
         $this->assertNull($productOption);
     }
 

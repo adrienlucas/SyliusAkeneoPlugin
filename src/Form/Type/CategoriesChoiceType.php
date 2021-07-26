@@ -50,7 +50,9 @@ final class CategoriesChoiceType extends AbstractType
             $categories[$item['code']] = $item['code'];
         }
 
-        $resolver->setDefaults(['choices' => $categories]);
+        $resolver->setDefaults([
+            'choices' => $categories,
+        ]);
     }
 
     public function getParent()

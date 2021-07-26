@@ -29,12 +29,14 @@ final class SettingsManager implements SettingsManagerInterface
     public function get(string $name, $default = null)
     {
         /** @var Setting $setting */
-        $setting = $this->entityManager->getRepository(Setting::class)->findOneBy(['name' => $name]);
+        $setting = $this->entityManager->getRepository(Setting::class)->findOneBy([
+            'name' => $name,
+        ]);
         if (!$setting instanceof Setting) {
             return $default;
         }
 
-        return \json_decode($setting->getValue(), true);
+        return json_decode($setting->getValue(), true);
     }
 
     /**
@@ -43,13 +45,15 @@ final class SettingsManager implements SettingsManagerInterface
     public function set(string $name, $value): SettingsManagerInterface
     {
         /** @var Setting $setting */
-        $setting = $this->entityManager->getRepository(Setting::class)->findOneBy(['name' => $name]);
+        $setting = $this->entityManager->getRepository(Setting::class)->findOneBy([
+            'name' => $name,
+        ]);
         if (!$setting instanceof Setting) {
             $setting = new Setting($name);
             $this->entityManager->persist($setting);
         }
 
-        $setting->setValue(\json_encode($value));
+        $setting->setValue(json_encode($value));
         $this->entityManager->flush($setting);
 
         return $this;

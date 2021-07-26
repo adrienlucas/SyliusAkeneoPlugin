@@ -29,11 +29,11 @@ final class FamilyRetrieverTest extends ApiTestCase
         $this->familyRetriever = self::$container->get(FamilyRetriever::class);
 
         $this->server->setResponseOfPath(
-            '/' . FamilyApi::FAMILIES_URI,
+            '/'.FamilyApi::FAMILIES_URI,
             new Response($this->getFileContent('families.json'), [], HttpResponse::HTTP_OK)
         );
         $this->server->setResponseOfPath(
-            '/' . sprintf(FamilyVariantApi::FAMILY_VARIANTS_URI, 'clothing'),
+            '/'.sprintf(FamilyVariantApi::FAMILY_VARIANTS_URI, 'clothing'),
             new Response($this->getFileContent('family_clothing_variants.json'), [], HttpResponse::HTTP_OK)
         );
 

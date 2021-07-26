@@ -46,7 +46,9 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
         /** @var \Synolia\SyliusAkeneoPlugin\Repository\ProductAttributeRepository $attributeRepository */
         $attributeRepository = self::$container->get('sylius.repository.product_attribute');
         /** @var ProductAttribute $productAttribute */
-        $productAttribute = $attributeRepository->findOneBy(['code' => 'color']);
+        $productAttribute = $attributeRepository->findOneBy([
+            'code' => 'color',
+        ]);
         $this->assertNotNull($productAttribute);
 
         $this->assertProductAttributeTranslations($productAttribute);
@@ -63,23 +65,22 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
     private function assertProductAttributeChoices(ProductAttribute $productAttribute): void
     {
         $expectedChoiceCodes = [
-            AbstractAttributeOptionTask::AKENEO_PREFIX . 'black',
-            AbstractAttributeOptionTask::AKENEO_PREFIX . 'blue',
-            AbstractAttributeOptionTask::AKENEO_PREFIX . 'brown',
-            AbstractAttributeOptionTask::AKENEO_PREFIX . 'green',
-            AbstractAttributeOptionTask::AKENEO_PREFIX . 'grey',
-            AbstractAttributeOptionTask::AKENEO_PREFIX . 'orange',
-            AbstractAttributeOptionTask::AKENEO_PREFIX . 'pink',
-            AbstractAttributeOptionTask::AKENEO_PREFIX . 'red',
-            AbstractAttributeOptionTask::AKENEO_PREFIX . 'white',
-            AbstractAttributeOptionTask::AKENEO_PREFIX . 'yellow',
+            AbstractAttributeOptionTask::AKENEO_PREFIX.'black',
+            AbstractAttributeOptionTask::AKENEO_PREFIX.'blue',
+            AbstractAttributeOptionTask::AKENEO_PREFIX.'brown',
+            AbstractAttributeOptionTask::AKENEO_PREFIX.'green',
+            AbstractAttributeOptionTask::AKENEO_PREFIX.'grey',
+            AbstractAttributeOptionTask::AKENEO_PREFIX.'orange',
+            AbstractAttributeOptionTask::AKENEO_PREFIX.'pink',
+            AbstractAttributeOptionTask::AKENEO_PREFIX.'red',
+            AbstractAttributeOptionTask::AKENEO_PREFIX.'white',
+            AbstractAttributeOptionTask::AKENEO_PREFIX.'yellow',
         ];
         /** @var array $choices */
         $choices = $productAttribute->getConfiguration()['choices'];
 
         foreach (array_keys($choices) as $attributeOptionCode) {
-            $this->assertEquals(
-                true,
+            $this->assertTrue(
                 \in_array(
                     $attributeOptionCode,
                     $expectedChoiceCodes,
@@ -91,7 +92,7 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
 
     private function assertProductAttributeChoicesTranslations(ProductAttribute $productAttribute): void
     {
-        $blackChoice = $productAttribute->getConfiguration()['choices'][AbstractAttributeOptionTask::AKENEO_PREFIX . 'black'];
+        $blackChoice = $productAttribute->getConfiguration()['choices'][AbstractAttributeOptionTask::AKENEO_PREFIX.'black'];
 
         $this->assertEquals('Noir', $blackChoice['fr_FR']);
         $this->assertEquals('Black', $blackChoice['en_US']);

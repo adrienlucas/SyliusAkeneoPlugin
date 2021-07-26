@@ -44,7 +44,9 @@ final class ProductConfigurationType extends AbstractType
             ->add(self::AKENEO_IMAGE_ATTRIBUTES_MAPPINGS_CODE, CollectionType::class, [
                 'required' => true,
                 'entry_type' => ProductImageAttributesType::class,
-                'entry_options' => ['label' => false],
+                'entry_options' => [
+                    'label' => false,
+                ],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
@@ -52,7 +54,9 @@ final class ProductConfigurationType extends AbstractType
             ->add(self::PRODUCT_IMAGES_MAPPINGS_CODE, CollectionType::class, [
                 'required' => true,
                 'entry_type' => ProductImagesMappingType::class,
-                'entry_options' => ['label' => false],
+                'entry_options' => [
+                    'label' => false,
+                ],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,

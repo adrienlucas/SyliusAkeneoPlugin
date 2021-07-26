@@ -53,8 +53,8 @@ class ApiConfiguration implements ResourceInterface
      * @var int
      * @ORM\Column(type="integer")
      * @Assert\Range(
-     *      min = ApiConfiguration::MIN_AKENEO_PAGINATION_SIZE,
-     *      max = ApiConfiguration::MAX_AKENEO_PAGINATION_SIZE,
+     *     min=ApiConfiguration::MIN_AKENEO_PAGINATION_SIZE,
+     *     max=ApiConfiguration::MAX_AKENEO_PAGINATION_SIZE,
      * )
      */
     private $paginationSize = self::DEFAULT_PAGINATION_SIZE;

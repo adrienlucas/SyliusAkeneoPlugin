@@ -64,13 +64,13 @@ abstract class AbstractAttributeOptionTask
         $choices = [];
         foreach ($options as $option) {
             foreach ($option['labels'] as $locale => $label) {
-                if (!in_array($locale, $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms(), true)) {
+                if (!\in_array($locale, $this->syliusAkeneoLocaleCodeProvider->getUsedLocalesOnBothPlatforms(), true)) {
                     continue;
                 }
-                if (!isset($choices[self::AKENEO_PREFIX . $option['code']]) && [] !== $this->getUnusedLocale($option['labels'])) {
-                    $choices[self::AKENEO_PREFIX . $option['code']] = $this->getUnusedLocale($option['labels']);
+                if (!isset($choices[self::AKENEO_PREFIX.$option['code']]) && [] !== $this->getUnusedLocale($option['labels'])) {
+                    $choices[self::AKENEO_PREFIX.$option['code']] = $this->getUnusedLocale($option['labels']);
                 }
-                $choices[self::AKENEO_PREFIX . $option['code']][$locale] = $label;
+                $choices[self::AKENEO_PREFIX.$option['code']][$locale] = $label;
             }
         }
 

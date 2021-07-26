@@ -67,7 +67,7 @@ final class AkeneoAttributePropertiesProvider
     {
         $labels = $this->getLabels($attributeCode);
         if (null === $locale || !isset($labels[$locale])) {
-            return \current($labels);
+            return current($labels);
         }
 
         return $labels[$locale];

@@ -109,7 +109,9 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
 
         foreach ($productsToTest as $productToTest) {
             /** @var \Sylius\Component\Core\Model\ProductVariantInterface $productVariant */
-            $productVariant = $productVariantRepository->findOneBy(['code' => $productToTest['code']]);
+            $productVariant = $productVariantRepository->findOneBy([
+                'code' => $productToTest['code'],
+            ]);
             $this->assertNotNull($productVariant);
 
             //Testing product attribute translations inside models
@@ -125,7 +127,7 @@ final class CreateConfigurableProductEntitiesTaskTest extends AbstractTaskTest
 
             //Testing product attribute translations
             foreach ($productVariant->getOptionValues() as $optionValue) {
-                if (!'size_' . $productToTest['attributes']['size'] === $optionValue->getCode()) {
+                if (!'size_'.$productToTest['attributes']['size'] === $optionValue->getCode()) {
                     continue;
                 }
                 $productOptionValueTranslation = $productOptionValueTranslationRepository->findOneBy([

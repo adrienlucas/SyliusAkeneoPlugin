@@ -36,7 +36,7 @@ abstract class ApiTestCase extends KernelTestCase
         $this->server = new MockWebServer((int) $_SERVER['MOCK_SERVER_PORT'], $_SERVER['MOCK_SERVER_HOST']);
         $this->server->start();
         $this->server->setResponseOfPath(
-            '/' . AuthenticationApi::TOKEN_URI,
+            '/'.AuthenticationApi::TOKEN_URI,
             new Response($this->getAuthenticatedJson())
         );
     }
@@ -75,15 +75,15 @@ abstract class ApiTestCase extends KernelTestCase
 
     protected static function getSamplePath(): string
     {
-        return \dirname(__DIR__) . self::SAMPLE_PATH;
+        return \dirname(__DIR__).self::SAMPLE_PATH;
     }
 
     protected function getFileContent(string $name): string
     {
-        $file = self::getSamplePath() . $name;
+        $file = self::getSamplePath().$name;
         Assert::fileExists($file);
 
-        $content = \file_get_contents($file);
+        $content = file_get_contents($file);
         if (false === $content) {
             return '';
         }

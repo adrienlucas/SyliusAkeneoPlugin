@@ -41,80 +41,80 @@ abstract class AbstractTaskTest extends ApiTestCase
         $this->manager->flush();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(CategoryApi::CATEGORIES_URI),
+            '/'.sprintf(CategoryApi::CATEGORIES_URI),
             new Response($this->getFileContent('categories_all.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            '/'.sprintf(AttributeApi::ATTRIBUTES_URI),
             new Response($this->getFileContent('attributes_options_apollon.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . FamilyApi::FAMILIES_URI,
+            '/'.FamilyApi::FAMILIES_URI,
             new Response($this->getFileContent('families.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(FamilyVariantApi::FAMILY_VARIANTS_URI, 'clothing'),
+            '/'.sprintf(FamilyVariantApi::FAMILY_VARIANTS_URI, 'clothing'),
             new Response($this->getFileContent('family_clothing_variants.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'clothing_size'),
+            '/'.sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'clothing_size'),
             new Response($this->getFileContent('attribute_options_clothing_size.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'collection'),
+            '/'.sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'collection'),
             new Response($this->getFileContent('attribute_options_collection.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'color'),
+            '/'.sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'color'),
             new Response($this->getFileContent('attribute_options_color.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'size'),
+            '/'.sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'size'),
             new Response($this->getFileContent('attribute_options_size.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'maximum_print_size'),
+            '/'.sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'maximum_print_size'),
             new Response($this->getFileContent('attribute_options_maximum_print_size.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'multifunction_functions'),
+            '/'.sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'multifunction_functions'),
             new Response($this->getFileContent('attribute_options_multifunction_functions.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(FamilyVariantApi::FAMILY_VARIANT_URI, 'clothing', 'clothing_color_size'),
+            '/'.sprintf(FamilyVariantApi::FAMILY_VARIANT_URI, 'clothing', 'clothing_color_size'),
             new Response($this->getFileContent('family_variant_clothing_color_size.json'), [], HttpResponse::HTTP_OK)
         );
         $this->server->setResponseOfPath(
-            '/' . sprintf(ProductModelApi::PRODUCT_MODELS_URI),
+            '/'.sprintf(ProductModelApi::PRODUCT_MODELS_URI),
             new Response($this->getFileContent('product_models_apollon.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(ProductApi::PRODUCTS_URI),
+            '/'.sprintf(ProductApi::PRODUCTS_URI),
             new Response($this->getFileContent('products_all.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(ProductMediaFileApi::MEDIA_FILE_DOWNLOAD_URI, '6/3/5/c/635cbfe306a1c13867fe7671c110ee3333fcba13_bag.jpg'),
+            '/'.sprintf(ProductMediaFileApi::MEDIA_FILE_DOWNLOAD_URI, '6/3/5/c/635cbfe306a1c13867fe7671c110ee3333fcba13_bag.jpg'),
             new Response($this->getFileContent('product_1111111171.jpg'), [], HttpResponse::HTTP_OK)
         );
         $this->server->setResponseOfPath(
-            '/' . sprintf(LocaleApi::LOCALES_URI),
+            '/'.sprintf(LocaleApi::LOCALES_URI),
             new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(FamilyApi::FAMILY_URI, 'clothing'),
+            '/'.sprintf(FamilyApi::FAMILY_URI, 'clothing'),
             new Response($this->getFileContent('family_clothing.json'), [], HttpResponse::HTTP_OK)
         );
     }
@@ -178,14 +178,14 @@ abstract class AbstractTaskTest extends ApiTestCase
 
     protected function countTotalProducts(bool $isSimple): int
     {
-        $query = $this->manager->getConnection()->prepare(\sprintf(
+        $query = $this->manager->getConnection()->prepare(sprintf(
             'SELECT count(id) FROM `%s` WHERE is_simple = :is_simple',
             ProductPayload::TEMP_AKENEO_TABLE_NAME
         ));
         $query->bindValue('is_simple', $isSimple, ParameterType::BOOLEAN);
         $query->execute();
 
-        return (int) \current($query->fetch());
+        return (int) current($query->fetch());
     }
 
     protected function prepareSelectQuery(
@@ -193,7 +193,7 @@ abstract class AbstractTaskTest extends ApiTestCase
         int $limit = ProductPayload::SELECT_PAGINATION_SIZE,
         int $offset = 0
     ): Statement {
-        $query = $this->manager->getConnection()->prepare(\sprintf(
+        $query = $this->manager->getConnection()->prepare(sprintf(
             'SELECT `values` 
              FROM `%s` 
              WHERE is_simple = :is_simple

@@ -75,8 +75,8 @@ final class CreateUpdateTask implements AkeneoTaskInterface
 
         try {
             $this->entityManager->beginTransaction();
-            $variationAxes = \array_unique($this->getVariationAxes($payload));
-            $this->logger->info(Messages::totalToImport($payload->getType(), count($variationAxes)));
+            $variationAxes = array_unique($this->getVariationAxes($payload));
+            $this->logger->info(Messages::totalToImport($payload->getType(), \count($variationAxes)));
 
             /** @var AttributeInterface $attribute */
             foreach ($this->productAttributeRepository->findByCodes($variationAxes) as $attribute) {
@@ -115,7 +115,7 @@ final class CreateUpdateTask implements AkeneoTaskInterface
                 $this->configurationProvider->getConfiguration()->getPaginationSize()
             );
 
-            $variationAxes = \array_merge($variationAxes, $this->getVariationAxesForFamilies($familyVariants));
+            $variationAxes = array_merge($variationAxes, $this->getVariationAxesForFamilies($familyVariants));
         }
 
         return $variationAxes;
@@ -127,7 +127,7 @@ final class CreateUpdateTask implements AkeneoTaskInterface
 
         foreach ($familyVariants as $familyVariant) {
             //Sort array of variant attribute sets by level DESC
-            \usort($familyVariant['variant_attribute_sets'], function ($leftVariantAttributeSets, $rightVariantAttributeSets) {
+            usort($familyVariant['variant_attribute_sets'], function ($leftVariantAttributeSets, $rightVariantAttributeSets) {
                 return (int) ($leftVariantAttributeSets['level'] < $rightVariantAttributeSets['level']);
             });
 

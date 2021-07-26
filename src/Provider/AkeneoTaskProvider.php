@@ -19,7 +19,7 @@ final class AkeneoTaskProvider
     public function get(string $taskClassName): AkeneoTaskInterface
     {
         if (!\array_key_exists($taskClassName, $this->tasks)) {
-            throw new \RuntimeException('Unable to find task ' . $taskClassName);
+            throw new \RuntimeException('Unable to find task '.$taskClassName);
         }
 
         return $this->tasks[$taskClassName];

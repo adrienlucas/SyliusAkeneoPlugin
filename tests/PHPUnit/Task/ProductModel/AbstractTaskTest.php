@@ -34,17 +34,17 @@ abstract class AbstractTaskTest extends ApiTestCase
         $this->manager->flush();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            '/'.sprintf(AttributeApi::ATTRIBUTES_URI),
             new Response($this->getFileContent('attributes_options_apollon.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(ProductModelApi::PRODUCT_MODELS_URI),
+            '/'.sprintf(ProductModelApi::PRODUCT_MODELS_URI),
             new Response($this->getFileContent('product_models_apollon.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(LocaleApi::LOCALES_URI),
+            '/'.sprintf(LocaleApi::LOCALES_URI),
             new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
         );
     }
@@ -90,20 +90,20 @@ abstract class AbstractTaskTest extends ApiTestCase
 
     protected function countTotalProducts(): int
     {
-        $query = $this->manager->getConnection()->prepare(\sprintf(
+        $query = $this->manager->getConnection()->prepare(sprintf(
             'SELECT count(id) FROM `%s`',
             ProductModelPayload::TEMP_AKENEO_TABLE_NAME
         ));
         $query->execute();
 
-        return (int) \current($query->fetch());
+        return (int) current($query->fetch());
     }
 
     protected function prepareSelectQuery(
         int $limit = ProductPayload::SELECT_PAGINATION_SIZE,
         int $offset = 0
     ): Statement {
-        $query = $this->manager->getConnection()->prepare(\sprintf(
+        $query = $this->manager->getConnection()->prepare(sprintf(
             'SELECT `values` 
              FROM `%s` 
              LIMIT :limit

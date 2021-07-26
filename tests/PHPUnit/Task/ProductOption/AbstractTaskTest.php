@@ -23,32 +23,32 @@ abstract class AbstractTaskTest extends ApiTestCase
         $this->manager->beginTransaction();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            '/'.sprintf(AttributeApi::ATTRIBUTES_URI),
             new Response($this->getFileContent('attributes_for_options.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'clothing_size'),
+            '/'.sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'clothing_size'),
             new Response($this->getFileContent('attribute_options_clothing_size.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'collection'),
+            '/'.sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'collection'),
             new Response($this->getFileContent('attribute_options_collection.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'color'),
+            '/'.sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'color'),
             new Response($this->getFileContent('attribute_options_color.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . FamilyApi::FAMILIES_URI,
+            '/'.FamilyApi::FAMILIES_URI,
             new Response($this->getFileContent('families.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(FamilyVariantApi::FAMILY_VARIANTS_URI, 'clothing'),
+            '/'.sprintf(FamilyVariantApi::FAMILY_VARIANTS_URI, 'clothing'),
             new Response($this->getFileContent('family_clothing_variants.json'), [], HttpResponse::HTTP_OK)
         );
     }

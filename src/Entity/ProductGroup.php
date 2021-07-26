@@ -82,7 +82,7 @@ class ProductGroup implements ResourceInterface
 
     public function addVariationAxe(string $variationAxe): self
     {
-        if (in_array($variationAxe, $this->variationAxes)) {
+        if (\in_array($variationAxe, $this->variationAxes)) {
             return $this;
         }
 
@@ -93,7 +93,7 @@ class ProductGroup implements ResourceInterface
 
     public function removeVariationAxe(string $variationAxe): self
     {
-        if (!in_array($variationAxe, $this->variationAxes)) {
+        if (!\in_array($variationAxe, $this->variationAxes)) {
             return $this;
         }
 

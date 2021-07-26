@@ -20,23 +20,25 @@ final class SynoliaSyliusAkeneoExtension extends Extension implements PrependExt
      */
     public function load(array $config, ContainerBuilder $container): void
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
         $loader->load('services.yaml');
     }
 
     public function prepend(ContainerBuilder $container): void
     {
-        $container->prependExtensionConfig('monolog', ['channels' => ['akeneo']]);
+        $container->prependExtensionConfig('monolog', [
+            'channels' => ['akeneo'],
+        ]);
 
         if (!$container->hasExtension('twig')) {
             return;
         }
 
-        $viewsPath = dirname(__DIR__) . '/Resources/views/';
+        $viewsPath = \dirname(__DIR__).'/Resources/views/';
         // This add our override in twig paths with correct namespace. No need for final user to copy it
         $paths = [
-            $viewsPath . 'SyliusAttributeBundle' => 'SyliusAttribute',
+            $viewsPath.'SyliusAttributeBundle' => 'SyliusAttribute',
         ];
 
         $container->prependExtensionConfig('twig', [

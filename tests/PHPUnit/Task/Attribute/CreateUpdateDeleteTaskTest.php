@@ -43,13 +43,17 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
         $task->__invoke($payload);
 
         /** @var \Sylius\Component\Product\Model\ProductAttribute $careInstructionProductAttribute */
-        $careInstructionProductAttribute = self::$container->get('sylius.repository.product_attribute')->findOneBy(['code' => 'care_instructions']);
+        $careInstructionProductAttribute = self::$container->get('sylius.repository.product_attribute')->findOneBy([
+            'code' => 'care_instructions',
+        ]);
         $this->assertNotNull($careInstructionProductAttribute);
         $this->assertEquals('Instructions d\'entretien', $careInstructionProductAttribute->getTranslation('fr_FR')->getName());
         $this->assertEquals('Care instructions', $careInstructionProductAttribute->getTranslation('en_US')->getName());
 
         /** @var \Sylius\Component\Product\Model\ProductAttribute $colorProductAttribute */
-        $colorProductAttribute = self::$container->get('sylius.repository.product_attribute')->findOneBy(['code' => 'color']);
+        $colorProductAttribute = self::$container->get('sylius.repository.product_attribute')->findOneBy([
+            'code' => 'color',
+        ]);
         $this->assertNotNull($colorProductAttribute);
         $this->assertEquals('Couleur', $colorProductAttribute->getTranslation('fr_FR')->getName());
         $this->assertEquals('Color', $colorProductAttribute->getTranslation('en_US')->getName());
@@ -75,7 +79,9 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
         /** @var DeleteEntityTask $deleteTask */
         $deleteTask = $this->taskProvider->get(DeleteEntityTask::class);
         $deleteTask->__invoke($createUpdatePayload);
-        $oldAttribute = self::$container->get('sylius.repository.product_attribute')->findOneBy(['code' => $attributeToDelete->getCode()]);
+        $oldAttribute = self::$container->get('sylius.repository.product_attribute')->findOneBy([
+            'code' => $attributeToDelete->getCode(),
+        ]);
 
         $this->assertNull($oldAttribute);
     }

@@ -85,7 +85,9 @@ final class ProductOptionManager implements ProductOptionManagerInterface
 
     public function getProductOptionFromAttribute(AttributeInterface $attribute): ?ProductOptionInterface
     {
-        return $this->productOptionRepository->findOneBy(['code' => $attribute->getCode()]);
+        return $this->productOptionRepository->findOneBy([
+            'code' => $attribute->getCode(),
+        ]);
     }
 
     public function createProductOptionFromAttribute(AttributeInterface $attribute): ProductOptionInterface
@@ -108,7 +110,7 @@ final class ProductOptionManager implements ProductOptionManagerInterface
         ProductOptionInterface $productOption,
         string $optionValueCode
     ): string {
-        return \strtolower(\sprintf('%s_%s', (string) $productOption->getCode(), $optionValueCode));
+        return strtolower(sprintf('%s_%s', (string) $productOption->getCode(), $optionValueCode));
     }
 
     private function updateTranslationsFromAttribute(ProductOptionInterface $productOption, AttributeInterface $attribute): void
@@ -158,7 +160,7 @@ final class ProductOptionManager implements ProductOptionManagerInterface
         }
 
         $productOptionValuesMapping = [];
-        $productOptionValueCodes = \array_keys($attribute->getConfiguration()['choices']);
+        $productOptionValueCodes = array_keys($attribute->getConfiguration()['choices']);
         foreach ($productOptionValueCodes as $productOptionValueCode) {
             if (isset($productOptionValuesMapping[(string) $productOptionValueCode])) {
                 continue;
@@ -195,8 +197,8 @@ final class ProductOptionManager implements ProductOptionManagerInterface
 
         foreach ($translations as $locale => $translation) {
             if (null === $translation) {
-                $translation = \sprintf('[%s]', $productOptionValueCode);
-                $this->akeneoLogger->warning(\sprintf(
+                $translation = sprintf('[%s]', $productOptionValueCode);
+                $this->akeneoLogger->warning(sprintf(
                     'Missing translation on choice "%s" for option %s, defaulted to "%s"',
                     $productOptionValueCode,
                     $attribute->getCode(),

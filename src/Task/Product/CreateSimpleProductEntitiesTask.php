@@ -157,7 +157,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
 
         while ($results = $query->fetchAll()) {
             foreach ($results as $result) {
-                $resource = \json_decode($result['values'], true);
+                $resource = json_decode($result['values'], true);
 
                 try {
                     $this->dispatcher->dispatch(new BeforeProcessingProductEvent($resource));
@@ -193,7 +193,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
             }
 
             $processedCount += \count($results);
-            $this->logger->info(\sprintf('Processed %d products out of %d.', $processedCount, $totalItemsCount));
+            $this->logger->info(sprintf('Processed %d products out of %d.', $processedCount, $totalItemsCount));
             $query = $this->prepareSelectQuery(true, ProductPayload::SELECT_PAGINATION_SIZE, $processedCount);
             $query->execute();
         }
@@ -206,7 +206,9 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
     private function getOrCreateEntity(array $resource): ProductInterface
     {
         /** @var ProductInterface $product */
-        $product = $this->productRepository->findOneBy(['code' => $resource['identifier']]);
+        $product = $this->productRepository->findOneBy([
+            'code' => $resource['identifier'],
+        ]);
 
         if (!$product instanceof ProductInterface) {
             if (!$this->productFactory instanceof ProductFactory) {
@@ -264,7 +266,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
             }
 
             if (null === $productName) {
-                $productName = \sprintf('[%s]', $product->getCode());
+                $productName = sprintf('[%s]', $product->getCode());
                 ++$missingNameTranslationCount;
             }
 
@@ -293,7 +295,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
 
             if ($missingNameTranslationCount > 0) {
                 //Multiple product has the same name
-                $productTranslation->setSlug(\sprintf(
+                $productTranslation->setSlug(sprintf(
                     '%s-%s-%d',
                     $resource['code'] ?? $resource['identifier'],
                     $this->productSlugGenerator->generate($productName),
@@ -304,7 +306,7 @@ final class CreateSimpleProductEntitiesTask extends AbstractCreateProductEntitie
             }
 
             //Multiple product has the same name
-            $productTranslation->setSlug(\sprintf(
+            $productTranslation->setSlug(sprintf(
                 '%s-%s',
                 $resource['code'] ?? $resource['identifier'],
                 $this->productSlugGenerator->generate($productName)

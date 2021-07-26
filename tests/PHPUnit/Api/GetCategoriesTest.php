@@ -22,7 +22,7 @@ final class GetCategoriesTest extends ApiTestCase
     public function testGetCategories(): void
     {
         $this->server->setResponseOfPath(
-            '/' . sprintf(CategoryApi::CATEGORIES_URI),
+            '/'.sprintf(CategoryApi::CATEGORIES_URI),
             new ResponseStack(
                 new Response($this->getCategories(), [], HttpResponse::HTTP_OK)
             )
@@ -38,7 +38,7 @@ final class GetCategoriesTest extends ApiTestCase
         Assert::assertInstanceOf(RequestInfo::class, $lastRequest);
         Assert::assertSame($lastRequest->jsonSerialize()[RequestInfo::JSON_KEY_METHOD], 'GET');
         Assert::assertInstanceOf(ResourceCursor::class, $categories);
-        Assert::assertSame(\json_decode($this->getCategories(), true)['_embedded']['items'][0], $categories->current());
+        Assert::assertSame(json_decode($this->getCategories(), true)['_embedded']['items'][0], $categories->current());
     }
 
     private function getCategories(): string

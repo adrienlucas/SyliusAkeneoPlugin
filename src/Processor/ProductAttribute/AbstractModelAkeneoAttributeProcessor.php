@@ -51,7 +51,7 @@ abstract class AbstractModelAkeneoAttributeProcessor
 
     public function process(string $attributeCode, array $context = []): void
     {
-        $this->logger->debug(\sprintf(
+        $this->logger->debug(sprintf(
             'Attribute "%s" is beeing processed by "%s"',
             $attributeCode,
             static::class
@@ -80,7 +80,7 @@ abstract class AbstractModelAkeneoAttributeProcessor
      */
     public function support(string $attributeCode, array $context = []): bool
     {
-        return \method_exists(
+        return method_exists(
             $this->model,
             $this->getSetterMethodFromAttributeCode($attributeCode)
         );

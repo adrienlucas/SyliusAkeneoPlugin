@@ -39,7 +39,7 @@ final class RetrieveOptionsTaskTest extends AbstractTaskTest
         /** @var OptionsPayload $optionPayload */
         $optionPayload = $task->__invoke($attributesPayload);
 
-        $options = \json_decode($this->getFileContent('attributes_for_options.json'), true);
+        $options = json_decode($this->getFileContent('attributes_for_options.json'), true);
         $optionCount = \count($options['_embedded']['items']);
 
         $this->assertCount($optionCount, $optionPayload->getResources());

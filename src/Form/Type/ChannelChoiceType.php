@@ -28,7 +28,9 @@ final class ChannelChoiceType extends AbstractType
             $channel[$item['code']] = $item['code'];
         }
 
-        $resolver->setDefaults(['choices' => $channel]);
+        $resolver->setDefaults([
+            'choices' => $channel,
+        ]);
     }
 
     public function getParent(): string

@@ -67,7 +67,7 @@ final class AkeneoReferenceEntityAttributePropertiesProvider
     {
         $labels = $this->getLabels($referenceEntityCode, $referenceEntityAttributeCode);
         if (null === $locale || !isset($labels[$locale])) {
-            return \current($labels);
+            return current($labels);
         }
 
         return $labels[$locale];

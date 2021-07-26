@@ -12,6 +12,8 @@ use Synolia\SyliusAkeneoPlugin\Retriever\FamilyRetriever;
 
 class FamilyVariationAxeProcessor
 {
+    /** @var int */
+    public $itemCount = 0;
     /** @var AkeneoPimEnterpriseClientInterface */
     private $akeneoPimEnterpriseClient;
 
@@ -23,9 +25,6 @@ class FamilyVariationAxeProcessor
 
     /** @var LoggerInterface */
     private $logger;
-
-    /** @var int */
-    public $itemCount = 0;
 
     public function __construct(
         AkeneoPimEnterpriseClientInterface $akeneoPimEnterpriseClient,
@@ -41,7 +40,9 @@ class FamilyVariationAxeProcessor
 
     public function process(array $resource, array $familiesVariantPayloads = []): array
     {
-        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['code']]);
+        $productGroup = $this->productGroupRepository->findOneBy([
+            'productParent' => $resource['code'],
+        ]);
         if (!$productGroup instanceof ProductGroup) {
             return $familiesVariantPayloads;
         }
@@ -78,14 +79,14 @@ class FamilyVariationAxeProcessor
         ProductGroup $productGroup
     ): void {
         foreach ($familiesVariantPayloads[$resource['family_variant']]['variant_attribute_sets'] as $variantAttributeSet) {
-            if (count($familiesVariantPayloads[$resource['family_variant']]['variant_attribute_sets']) !== $variantAttributeSet['level']) {
+            if (\count($familiesVariantPayloads[$resource['family_variant']]['variant_attribute_sets']) !== $variantAttributeSet['level']) {
                 continue;
             }
 
             foreach ($variantAttributeSet['axes'] as $axe) {
                 $productGroup->addVariationAxe($axe);
                 ++$this->itemCount;
-                $this->logger->info(\sprintf(
+                $this->logger->info(sprintf(
                     'Added axe "%s" to product group "%s" for family "%s"',
                     $axe,
                     $productGroup->getProductParent(),

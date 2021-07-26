@@ -27,7 +27,9 @@ final class CategoriesConfigurationType extends AbstractType
                 'multiple' => true,
             ])
             ->add('submit', SubmitType::class, [
-                'attr' => ['class' => 'ui icon primary button'],
+                'attr' => [
+                    'class' => 'ui icon primary button',
+                ],
                 'label' => 'sylius.ui.admin.akeneo.save',
             ])
         ;

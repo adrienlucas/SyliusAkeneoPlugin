@@ -34,7 +34,7 @@ final class FamilyRetriever
 
     public function getFamilyCodeByVariantCode(string $familyVariantCode): string
     {
-        if (array_key_exists($familyVariantCode, $this->familiesByVariant)) {
+        if (\array_key_exists($familyVariantCode, $this->familiesByVariant)) {
             return $this->familiesByVariant[$familyVariantCode];
         }
 
@@ -54,7 +54,7 @@ final class FamilyRetriever
                 }
             }
 
-            if (array_key_exists($familyVariantCode, $this->familiesByVariant)) {
+            if (\array_key_exists($familyVariantCode, $this->familiesByVariant)) {
                 return $this->familiesByVariant[$familyVariantCode];
             }
         } catch (\Throwable $exception) {

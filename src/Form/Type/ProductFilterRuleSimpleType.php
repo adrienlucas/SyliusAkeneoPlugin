@@ -87,7 +87,9 @@ final class ProductFilterRuleSimpleType extends AbstractType
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'sylius.ui.save',
-                'attr' => ['class' => 'ui primary button'],
+                'attr' => [
+                    'class' => 'ui primary button',
+                ],
             ])
         ;
     }

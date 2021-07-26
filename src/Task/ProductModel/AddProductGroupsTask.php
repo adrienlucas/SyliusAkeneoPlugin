@@ -99,7 +99,9 @@ final class AddProductGroupsTask implements AkeneoTaskInterface
             return;
         }
 
-        if ($this->productGroupRepository->findOneBy(['productParent' => $code])) {
+        if ($this->productGroupRepository->findOneBy([
+            'productParent' => $code,
+        ])) {
             ++$this->groupAlreadyExistCount;
             $this->logger->info(Messages::hasBeenAlreadyExist('ProductGroup', $code));
 
@@ -118,10 +120,10 @@ final class AddProductGroupsTask implements AkeneoTaskInterface
 
     private function createProductGroups(array $resource): void
     {
-        if ($resource['parent'] !== null) {
+        if (null !== $resource['parent']) {
             $this->createGroupForCodeAndFamily($resource['parent'], $resource['family']);
         }
-        if ($resource['code'] !== null) {
+        if (null !== $resource['code']) {
             $this->createGroupForCodeAndFamily($resource['code'], $resource['family']);
         }
     }

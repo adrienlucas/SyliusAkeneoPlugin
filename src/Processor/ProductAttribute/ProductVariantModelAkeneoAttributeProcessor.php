@@ -50,17 +50,17 @@ class ProductVariantModelAkeneoAttributeProcessor extends AbstractModelAkeneoAtt
     protected function getSetterMethodFromAttributeCode(string $attributeCode): string
     {
         if (\in_array($this->camelCaseToSnakeCaseNameConverter->normalize($attributeCode), self::NATIVE_PROPERTIES) ||
-            in_array($this->camelCaseToSnakeCaseNameConverter->denormalize($attributeCode), self::NATIVE_PROPERTIES)
+            \in_array($this->camelCaseToSnakeCaseNameConverter->denormalize($attributeCode), self::NATIVE_PROPERTIES)
         ) {
-            return $this->camelCaseToSnakeCaseNameConverter->denormalize(\sprintf(
+            return $this->camelCaseToSnakeCaseNameConverter->denormalize(sprintf(
                 'set%s',
-                \ucfirst($attributeCode)
+                ucfirst($attributeCode)
             ));
         }
 
-        return $this->camelCaseToSnakeCaseNameConverter->denormalize(\sprintf(
+        return $this->camelCaseToSnakeCaseNameConverter->denormalize(sprintf(
             'set%s%s',
-            \ucfirst($attributeCode),
+            ucfirst($attributeCode),
             self::CUSTOM_PROPERTIES_SUFFIX
         ));
     }

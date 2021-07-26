@@ -24,7 +24,7 @@ final class RetrieveAttributesTaskTest extends AbstractTaskTest
         $payload = $task->__invoke($retrieveAttributePayload);
         $this->assertInstanceOf(AttributePayload::class, $payload);
 
-        $content = \json_decode($this->getFileContent('attributes_all.json'), true);
+        $content = json_decode($this->getFileContent('attributes_all.json'), true);
         $this->assertCount(\count($content['_embedded']['items']), $payload->getResources());
     }
 }

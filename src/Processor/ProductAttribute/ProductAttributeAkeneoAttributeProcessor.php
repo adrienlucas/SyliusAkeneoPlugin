@@ -71,7 +71,9 @@ class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeProcess
         $transformedAttributeCode = $this->akeneoAttributeToSyliusAttributeTransformer->transform((string) $attributeCode);
 
         /** @var AttributeInterface $attribute */
-        $attribute = $this->productAttributeRepository->findOneBy(['code' => $transformedAttributeCode]);
+        $attribute = $this->productAttributeRepository->findOneBy([
+            'code' => $transformedAttributeCode,
+        ]);
 
         if (!$attribute instanceof AttributeInterface || null === $attribute->getType()) {
             return false;
@@ -86,7 +88,7 @@ class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeProcess
 
     public function process(string $attributeCode, array $context = []): void
     {
-        $this->logger->debug(\sprintf(
+        $this->logger->debug(sprintf(
             'Attribute "%s" is beeing processed by "%s"',
             $attributeCode,
             static::class
@@ -99,7 +101,9 @@ class ProductAttributeAkeneoAttributeProcessor implements AkeneoAttributeProcess
         $transformedAttributeCode = $this->akeneoAttributeToSyliusAttributeTransformer->transform((string) $attributeCode);
 
         /** @var AttributeInterface $attribute */
-        $attribute = $this->productAttributeRepository->findOneBy(['code' => $transformedAttributeCode]);
+        $attribute = $this->productAttributeRepository->findOneBy([
+            'code' => $transformedAttributeCode,
+        ]);
 
         foreach ($context['data'] as $translation) {
             if (null !== $translation['locale'] && false === $this->syliusAkeneoLocaleCodeProvider->isActiveLocale($translation['locale'])) {

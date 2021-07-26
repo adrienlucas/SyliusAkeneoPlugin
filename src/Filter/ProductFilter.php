@@ -65,7 +65,10 @@ final class ProductFilter
 
             $queryParameters = $this->getExcludeFamiliesFilter($productFilterRules, $queryParameters);
             $queryParameters = $queryParameters->getFilters();
-            $queryParameters = ['search' => $queryParameters, 'scope' => $productFilterRules->getChannel()];
+            $queryParameters = [
+                'search' => $queryParameters,
+                'scope' => $productFilterRules->getChannel(),
+            ];
         }
 
         if (ProductFilterRuleAdvancedType::MODE === $productFilterRules->getMode() && !empty($productFilterRules->getAdvancedFilter())) {
@@ -98,7 +101,10 @@ final class ProductFilter
             $queryParameters = $this->getExcludeFamiliesFilter($productFilterRules, $queryParameters);
             $queryParameters = $this->getStatus($productFilterRules, $queryParameters);
             $queryParameters = $queryParameters->getFilters();
-            $queryParameters = ['search' => $queryParameters, 'scope' => $productFilterRules->getChannel()];
+            $queryParameters = [
+                'search' => $queryParameters,
+                'scope' => $productFilterRules->getChannel(),
+            ];
         }
 
         if (ProductFilterRuleAdvancedType::MODE === $productFilterRules->getMode() && !empty($productFilterRules->getAdvancedFilter())) {
@@ -129,7 +135,7 @@ final class ProductFilter
         }
 
         parse_str($productFilterRules->getAdvancedFilter(), $advancedFilter);
-        if (!array_key_exists('search', $advancedFilter)) {
+        if (!\array_key_exists('search', $advancedFilter)) {
             return $advancedFilter;
         }
 
@@ -155,10 +161,10 @@ final class ProductFilter
     private function getProductModelAdvancedFilter(array $advancedFilter): array
     {
         $advancedFilter['search'] = array_filter($advancedFilter['search'], static function (string $key): bool {
-            return in_array($key, self::AVAILABLE_PRODUCT_MODEL_QUERIES);
-        }, \ARRAY_FILTER_USE_KEY);
+            return \in_array($key, self::AVAILABLE_PRODUCT_MODEL_QUERIES);
+        }, ARRAY_FILTER_USE_KEY);
 
-        if (array_key_exists('completeness', $advancedFilter['search']) && is_array($advancedFilter['search']['completeness'])) {
+        if (\array_key_exists('completeness', $advancedFilter['search']) && \is_array($advancedFilter['search']['completeness'])) {
             $advancedFilter = $this->getProductModelCompletenessTypeAdvancedFilter($advancedFilter);
         }
 
@@ -218,7 +224,7 @@ final class ProductFilter
 
     private function getLocales(ProductFiltersRules $productFilterRules): array
     {
-        if (in_array($productFilterRules->getCompletenessType(), [
+        if (\in_array($productFilterRules->getCompletenessType(), [
             Operator::LOWER_THAN_ON_ALL_LOCALES,
             Operator::GREATER_THAN_ON_ALL_LOCALES,
             Operator::LOWER_OR_EQUALS_THAN_ON_ALL_LOCALES,
@@ -241,7 +247,7 @@ final class ProductFilter
             return $queryParameters;
         }
 
-        if (in_array($completenessType, [
+        if (\in_array($completenessType, [
             Operator::LOWER_THAN_ON_ALL_LOCALES,
             Operator::GREATER_THAN_ON_ALL_LOCALES,
             Operator::LOWER_OR_EQUALS_THAN_ON_ALL_LOCALES,
@@ -265,7 +271,7 @@ final class ProductFilter
             $completeness,
             $completenessValue,
             [
-                'locales' => in_array($completeness, [self::AT_LEAST_COMPLETE, self::ALL_COMPLETE]) ? $this->getLocales($productFilterRules) : [],
+                'locales' => \in_array($completeness, [self::AT_LEAST_COMPLETE, self::ALL_COMPLETE]) ? $this->getLocales($productFilterRules) : [],
                 'scope' => $productFilterRules->getChannel(),
             ]
         );

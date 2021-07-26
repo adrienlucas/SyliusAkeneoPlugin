@@ -23,7 +23,9 @@ final class AttributeTypeChoiceType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefault('choices', array_merge($this->attributeTypes, ['multiselect' => 'multiselect']));
+        $resolver->setDefault('choices', array_merge($this->attributeTypes, [
+            'multiselect' => 'multiselect',
+        ]));
     }
 
     /**

@@ -24,6 +24,6 @@ final class ReferenceEntityAttributeTypeMatcher
             }
         }
 
-        throw new UnsupportedReferenceEntityAttributeTypeException(\sprintf('Unsupported Reference Entity Attribute Type "%s"', $type));
+        throw new UnsupportedReferenceEntityAttributeTypeException(sprintf('Unsupported Reference Entity Attribute Type "%s"', $type));
     }
 }

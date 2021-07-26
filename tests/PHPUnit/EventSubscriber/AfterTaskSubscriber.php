@@ -23,7 +23,7 @@ class AfterTaskSubscriber implements EventSubscriberInterface
     {
         /** @var DummyPayload $payload */
         $payload = $event->getPayload();
-        if (\method_exists($payload, 'addLog')) {
+        if (method_exists($payload, 'addLog')) {
             $payload->addLog($event::NAME);
         }
     }

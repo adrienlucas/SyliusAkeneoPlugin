@@ -27,7 +27,7 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
         parent::setUp();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(CategoryApi::CATEGORIES_URI),
+            '/'.sprintf(CategoryApi::CATEGORIES_URI),
             new ResponseStack(
                 new Response($this->getCategories(), [], HttpResponse::HTTP_OK)
             )
@@ -75,7 +75,9 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
         ];
 
         foreach ($expectedTaxonToExists as $expectedTaxonToExist) {
-            $this->assertNotNull($taxonRepository->findOneBy(['code' => $expectedTaxonToExist]));
+            $this->assertNotNull($taxonRepository->findOneBy([
+                'code' => $expectedTaxonToExist,
+            ]));
         }
     }
 
@@ -100,7 +102,9 @@ final class CreateUpdateDeleteTaskTest extends AbstractTaskTest
         $expectedTaxonToExists = ['clothes', 'pants', 'shoes', 'sweat', 'coats', 'underwear'];
 
         foreach ($expectedTaxonToExists as $expectedTaxonToExist) {
-            $this->assertNotNull($taxonRepository->findOneBy(['code' => $expectedTaxonToExist]));
+            $this->assertNotNull($taxonRepository->findOneBy([
+                'code' => $expectedTaxonToExist,
+            ]));
         }
     }
 }

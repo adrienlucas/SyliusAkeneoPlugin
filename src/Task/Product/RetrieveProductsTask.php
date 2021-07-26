@@ -74,12 +74,12 @@ final class RetrieveProductsTask implements AkeneoTaskInterface
             $resources instanceof Page
         ) {
             foreach ($resources->getItems() as $item) {
-                $sql = \sprintf(
+                $sql = sprintf(
                     'INSERT INTO `%s` (`values`, `is_simple`) VALUES (:values, :is_simple);',
                     ProductPayload::TEMP_AKENEO_TABLE_NAME,
                 );
                 $stmt = $this->entityManager->getConnection()->prepare($sql);
-                $stmt->bindValue('values', \json_encode($item));
+                $stmt->bindValue('values', json_encode($item));
                 $stmt->bindValue('is_simple', null === $item['parent'], ParameterType::BOOLEAN);
                 $stmt->execute();
 

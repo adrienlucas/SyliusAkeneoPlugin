@@ -17,11 +17,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         dirname(__DIR__, 1) . '/spec',
     ]);
 
-    $parameters->set(Option::SETS, [
-        SetList::SYMFONY,
-        SetList::PHP_73_MIGRATION,
-        SetList::PHP_CS_FIXER,
-    ]);
+    $containerConfigurator->import(SetList::PSR_12);
+    $containerConfigurator->import(SetList::PHP_CS_FIXER);
+    $containerConfigurator->import(SetList::SYMFONY);
+    $containerConfigurator->import(SetList::SYMFONY_RISKY);
+    $containerConfigurator->import(SetList::DOCTRINE_ANNOTATIONS);
+    $containerConfigurator->import(SetList::ARRAY);
+    $containerConfigurator->import(SetList::CLEAN_CODE);
+
     $parameters->set(Option::SKIP, [
         PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer::class => [
             dirname(__DIR__, 1) . '/src/*/*Configuration*.php',

@@ -78,16 +78,16 @@ class ProductConfiguration implements ResourceInterface
 
     /**
      * @var bool
-     * @ORM\Column(name="enable_imported_products", type="boolean", options={"default" = 0})
+     * @ORM\Column(name="enable_imported_products", type="boolean", options={"default"=0})
      */
     private $enableImportedProducts = false;
 
     /**
      * @var ChannelInterface[]|Collection<int, ChannelInterface>
-     * @ORM\ManyToMany (targetEntity=ChannelInterface::class)
+     * @ORM\ManyToMany(targetEntity=ChannelInterface::class)
      * @ORM\JoinTable(name="akeneo_product_configuration_channels",
-     *      joinColumns={@ORM\JoinColumn(name="product_configuration_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="channel_id", referencedColumnName="id", unique=true)}
+     *     joinColumns={@ORM\JoinColumn(name="product_configuration_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="channel_id", referencedColumnName="id", unique=true)}
      * )
      */
     private $channelsToEnable;

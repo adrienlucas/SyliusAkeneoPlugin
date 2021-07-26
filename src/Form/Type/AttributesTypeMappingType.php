@@ -28,7 +28,9 @@ final class AttributesTypeMappingType extends AbstractType
             ])
             ->add(self::ATTRIBUTE_TYPE_MAPPINGS_CODE, CollectionType::class, [
                 'entry_type' => AttributeTypeMappingType::class,
-                'entry_options' => ['label' => false],
+                'entry_options' => [
+                    'label' => false,
+                ],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
@@ -36,7 +38,9 @@ final class AttributesTypeMappingType extends AbstractType
             ])
             ->add(self::ATTRIBUTE_AKENEO_SYLIUS_MAPPINGS_CODE, CollectionType::class, [
                 'entry_type' => AttributeAkeneoSyliusMappingType::class,
-                'entry_options' => ['label' => false],
+                'entry_options' => [
+                    'label' => false,
+                ],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
@@ -44,13 +48,19 @@ final class AttributesTypeMappingType extends AbstractType
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'sylius.ui.save',
-                'attr' => ['class' => 'ui primary button'],
+                'attr' => [
+                    'class' => 'ui primary button',
+                ],
             ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data' => ['settings' => []]]);
+        $resolver->setDefaults([
+            'data' => [
+                'settings' => [],
+            ],
+        ]);
     }
 }

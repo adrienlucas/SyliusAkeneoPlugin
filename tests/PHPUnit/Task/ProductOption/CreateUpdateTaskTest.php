@@ -34,7 +34,7 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
         $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(LocaleApi::LOCALES_URI),
+            '/'.sprintf(LocaleApi::LOCALES_URI),
             new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
         );
     }
@@ -61,7 +61,9 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
 
         $productOptionRepository = self::$container->get('sylius.repository.product_option');
         /** @var \Sylius\Component\Product\Model\ProductOptionInterface $productOption */
-        $productOption = $productOptionRepository->findOneBy(['code' => 'color']);
+        $productOption = $productOptionRepository->findOneBy([
+            'code' => 'color',
+        ]);
 
         $this->assertNotNull($productOption);
         $this->assertProductOptionTranslations($productOption);
@@ -93,23 +95,22 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
     private function assertProductOptionValues(ProductOption $productOption): void
     {
         $expectedValueCodes = [
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'black',
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'blue',
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'brown',
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'green',
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'grey',
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'orange',
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'pink',
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'red',
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'white',
-            'color_' . AbstractAttributeOptionTask::AKENEO_PREFIX . 'yellow',
+            'color_'.AbstractAttributeOptionTask::AKENEO_PREFIX.'black',
+            'color_'.AbstractAttributeOptionTask::AKENEO_PREFIX.'blue',
+            'color_'.AbstractAttributeOptionTask::AKENEO_PREFIX.'brown',
+            'color_'.AbstractAttributeOptionTask::AKENEO_PREFIX.'green',
+            'color_'.AbstractAttributeOptionTask::AKENEO_PREFIX.'grey',
+            'color_'.AbstractAttributeOptionTask::AKENEO_PREFIX.'orange',
+            'color_'.AbstractAttributeOptionTask::AKENEO_PREFIX.'pink',
+            'color_'.AbstractAttributeOptionTask::AKENEO_PREFIX.'red',
+            'color_'.AbstractAttributeOptionTask::AKENEO_PREFIX.'white',
+            'color_'.AbstractAttributeOptionTask::AKENEO_PREFIX.'yellow',
         ];
         $values = $productOption->getValues();
 
         /** @var \Sylius\Component\Product\Model\ProductOptionValue $value */
         foreach ($values as $value) {
-            $this->assertEquals(
-                true,
+            $this->assertTrue(
                 \in_array(
                     $value->getCode(),
                     $expectedValueCodes,
@@ -128,11 +129,14 @@ final class CreateUpdateTaskTest extends AbstractTaskTest
 
         /** @var \Sylius\Component\Product\Model\ProductOptionValue $productOptionValue */
         $productOptionValue = $productOptionValueRepository->findOneBy([
-            'code' => ProductOptionManager::getOptionValueCodeFromProductOption($productOption, AbstractAttributeOptionTask::AKENEO_PREFIX . 'black'),
+            'code' => ProductOptionManager::getOptionValueCodeFromProductOption($productOption, AbstractAttributeOptionTask::AKENEO_PREFIX.'black'),
             'option' => $productOption,
         ]);
 
-        $expectedTranslations = ['fr_FR' => 'Noir', 'en_US' => 'Black'];
+        $expectedTranslations = [
+            'fr_FR' => 'Noir',
+            'en_US' => 'Black',
+        ];
 
         foreach ($expectedTranslations as $locale => $translationValue) {
             $translation = $productOptionValueTranslationRepository->findOneBy([

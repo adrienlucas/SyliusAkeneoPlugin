@@ -39,9 +39,9 @@ class ProductVariantTranslationModelAkeneoAttributeProcessor extends AbstractMod
 
     protected function getSetterMethodFromAttributeCode(string $attributeCode): string
     {
-        return $this->camelCaseToSnakeCaseNameConverter->denormalize(\sprintf(
+        return $this->camelCaseToSnakeCaseNameConverter->denormalize(sprintf(
             'set%s%s',
-            \ucfirst($attributeCode),
+            ucfirst($attributeCode),
             self::CUSTOM_PROPERTIES_SUFFIX
         ));
     }

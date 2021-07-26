@@ -89,7 +89,9 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $createSimpleProductEntitiesTask->__invoke($productPayload);
 
         /** @var \Sylius\Component\Core\Model\ProductInterface $product */
-        $product = self::$container->get('sylius.repository.product')->findOneBy(['code' => '1111111171']);
+        $product = self::$container->get('sylius.repository.product')->findOneBy([
+            'code' => '1111111171',
+        ]);
         $this->assertNotNull($product);
 
         //Testing product attribute translations inside models
@@ -115,7 +117,9 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
 
         //Testing simple variant
         /** @var \Sylius\Component\Core\Model\ProductVariantInterface $productVariant */
-        $productVariant = self::$container->get('sylius.repository.product_variant')->findOneBy(['code' => $product->getCode()]);
+        $productVariant = self::$container->get('sylius.repository.product_variant')->findOneBy([
+            'code' => $product->getCode(),
+        ]);
         $this->assertNotNull($productVariant);
 
         $this->assertEquals(self::$container->get('sylius.repository.channel')->count([]), $productVariant->getChannelPricings()->count());
@@ -125,7 +129,9 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         }
 
         /** @var \Sylius\Component\Product\Model\ProductAttributeValueInterface $referenceEntityAttribute */
-        $referenceEntityAttribute = $productAttributeRepository->findOneBy(['code' => 'test_entite_couleur']);
+        $referenceEntityAttribute = $productAttributeRepository->findOneBy([
+            'code' => 'test_entite_couleur',
+        ]);
 
         /** @var \Sylius\Component\Product\Model\ProductAttributeValueInterface $referenceEntityAttributeValue */
         $referenceEntityAttributeValue = $productAttributeValueRepository->findOneBy([
@@ -136,7 +142,7 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $this->assertNotNull($referenceEntityAttributeValue);
 
         $this->assertSame(
-            \json_decode('{"code":"noir","attributes":{"label":"BLANC","image":"e\/b\/4\/d\/eb4d25582151b684acd7f18f68b1db5314786233_blanc.png","filtre_couleur_1":"noir"}}', true),
+            json_decode('{"code":"noir","attributes":{"label":"BLANC","image":"e\/b\/4\/d\/eb4d25582151b684acd7f18f68b1db5314786233_blanc.png","filtre_couleur_1":"noir"}}', true),
             $referenceEntityAttributeValue->getValue()
         );
     }
@@ -145,19 +151,19 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
     {
         yield [
             '11834327',
-            CreateUpdateDeleteTask::AKENEO_PREFIX . 'legal_216_x_356_mm_',
+            CreateUpdateDeleteTask::AKENEO_PREFIX.'legal_216_x_356_mm_',
             [
-                CreateUpdateDeleteTask::AKENEO_PREFIX . 'copy',
-                CreateUpdateDeleteTask::AKENEO_PREFIX . 'n',
-                CreateUpdateDeleteTask::AKENEO_PREFIX . 'scan',
+                CreateUpdateDeleteTask::AKENEO_PREFIX.'copy',
+                CreateUpdateDeleteTask::AKENEO_PREFIX.'n',
+                CreateUpdateDeleteTask::AKENEO_PREFIX.'scan',
             ],
             true,
         ];
 
         yield [
             '123456789',
-            CreateUpdateDeleteTask::AKENEO_PREFIX . 'legal_216_x_356_mm_',
-            [CreateUpdateDeleteTask::AKENEO_PREFIX . 'copy'],
+            CreateUpdateDeleteTask::AKENEO_PREFIX.'legal_216_x_356_mm_',
+            [CreateUpdateDeleteTask::AKENEO_PREFIX.'copy'],
             false,
         ];
     }
@@ -190,7 +196,9 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $createSimpleProductEntitiesTask->__invoke($productPayload);
 
         /** @var \Sylius\Component\Core\Model\ProductInterface $product */
-        $product = self::$container->get('sylius.repository.product')->findOneBy(['code' => $productId]);
+        $product = self::$container->get('sylius.repository.product')->findOneBy([
+            'code' => $productId,
+        ]);
         $this->assertNotNull($product);
 
         $this->assertNotEmpty($product->getAttributes());
@@ -212,12 +220,12 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
     private function initializeProductWithMultiSelectAndCheckbox(): void
     {
         $this->server->setResponseOfPath(
-            '/' . sprintf(ProductApi::PRODUCTS_URI),
+            '/'.sprintf(ProductApi::PRODUCTS_URI),
             new Response($this->getFileContent('products_attributes_value_test.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            '/'.sprintf(AttributeApi::ATTRIBUTES_URI),
             new Response($this->getFileContent('attributes_for_products_attributes_value_test.json'), [], HttpResponse::HTTP_OK)
         );
 
@@ -244,7 +252,9 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
         $categories = ['master_accessories_bags', 'print_accessories', 'supplier_zaro'];
 
         foreach ($categories as $categoryCode) {
-            $category = self::$container->get('sylius.repository.taxon')->findOneBy(['code' => $categoryCode]);
+            $category = self::$container->get('sylius.repository.taxon')->findOneBy([
+                'code' => $categoryCode,
+            ]);
 
             if (!$category instanceof TaxonInterface) {
                 /** @var Taxon $category */
@@ -263,27 +273,27 @@ final class CreateSimpleProductEntitiesTaskTest extends AbstractTaskTest
     private function importReferenceEntities()
     {
         $this->server->setResponseOfPath(
-            '/' . sprintf(LocaleApi::LOCALES_URI),
+            '/'.sprintf(LocaleApi::LOCALES_URI),
             new Response($this->getFileContent('locales.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORDS_URI, 'couleur'),
+            '/'.sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORDS_URI, 'couleur'),
             new Response($this->getFileContent('entity_couleur_records.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(ReferenceEntityAttributeApi::REFERENCE_ENTITY_ATTRIBUTES_URI, 'couleur'),
+            '/'.sprintf(ReferenceEntityAttributeApi::REFERENCE_ENTITY_ATTRIBUTES_URI, 'couleur'),
             new Response($this->getFileContent('entity_couleur_attributes.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(ReferenceEntityAttributeOptionApi::REFERENCE_ENTITY_ATTRIBUTE_OPTIONS_URI, 'couleur', 'filtre_couleur_1'),
+            '/'.sprintf(ReferenceEntityAttributeOptionApi::REFERENCE_ENTITY_ATTRIBUTE_OPTIONS_URI, 'couleur', 'filtre_couleur_1'),
             new Response($this->getFileContent('entity_couleur_filtre_couleur_1_options.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORD_URI, 'couleur', 'noir'),
+            '/'.sprintf(ReferenceEntityRecordApi::REFERENCE_ENTITY_RECORD_URI, 'couleur', 'noir'),
             new Response($this->getFileContent('reference_entity_couleur_record_noir.json'), [], HttpResponse::HTTP_OK)
         );
     }

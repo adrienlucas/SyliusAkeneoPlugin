@@ -76,10 +76,14 @@ final class EnableDisableProductTaskTest extends AbstractTaskTest
         $enableDisableProductTask->__invoke($simpleProductCreationPayload);
 
         /** @var \Sylius\Component\Core\Model\ProductInterface $product */
-        $product = self::$container->get('sylius.repository.product')->findOneBy(['code' => '1111111171']);
+        $product = self::$container->get('sylius.repository.product')->findOneBy([
+            'code' => '1111111171',
+        ]);
 
         $this->assertCount(1, $product->getChannels());
-        $channel = self::$container->get('sylius.repository.channel')->findOneBy(['code' => 'FASHION_WEB']);
+        $channel = self::$container->get('sylius.repository.channel')->findOneBy([
+            'code' => 'FASHION_WEB',
+        ]);
         $this->assertContains($channel, $product->getChannels());
     }
 
@@ -100,7 +104,9 @@ final class EnableDisableProductTaskTest extends AbstractTaskTest
         $categories = ['master_accessories_bags', 'print_accessories', 'supplier_zaro'];
 
         foreach ($categories as $categoryCode) {
-            $category = self::$container->get('sylius.repository.taxon')->findOneBy(['code' => $categoryCode]);
+            $category = self::$container->get('sylius.repository.taxon')->findOneBy([
+                'code' => $categoryCode,
+            ]);
 
             if (!$category instanceof TaxonInterface) {
                 /** @var Taxon $category */

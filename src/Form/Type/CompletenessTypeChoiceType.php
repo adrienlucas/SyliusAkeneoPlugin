@@ -25,7 +25,9 @@ final class CompletenessTypeChoiceType extends AbstractType
             'sylius.ui.admin.akeneo.product_filter_rules.lower_or_equals_than_on_all_locales' => Operator::LOWER_OR_EQUALS_THAN_ON_ALL_LOCALES,
         ];
 
-        $resolver->setDefaults(['choices' => $completenessType]);
+        $resolver->setDefaults([
+            'choices' => $completenessType,
+        ]);
     }
 
     public function getParent()

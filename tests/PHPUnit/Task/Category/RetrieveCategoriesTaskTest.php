@@ -33,7 +33,7 @@ final class RetrieveCategoriesTaskTest extends AbstractTaskTest
         parent::setUp();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(CategoryApi::CATEGORIES_URI),
+            '/'.sprintf(CategoryApi::CATEGORIES_URI),
             new ResponseStack(
                 new Response($this->getCategories(), [], HttpResponse::HTTP_OK)
             )

@@ -73,7 +73,9 @@ final class CreateUpdateDeleteTask extends AbstractAttributeOptionTask implement
         bool $isMultiple
     ): void {
         $code = $this->akeneoAttributeToSyliusAttributeTransformer->transform($attributeCode);
-        $attribute = $this->productAttributeRepository->findOneBy(['code' => $code]);
+        $attribute = $this->productAttributeRepository->findOneBy([
+            'code' => $code,
+        ]);
 
         if (!$attribute instanceof AttributeInterface) {
             return;

@@ -26,27 +26,27 @@ abstract class AbstractTaskTest extends ApiTestCase
         $this->manager->flush();
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(LocaleApi::LOCALES_URI),
+            '/'.sprintf(LocaleApi::LOCALES_URI),
             new Response($this->getLocales(), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeApi::ATTRIBUTES_URI),
+            '/'.sprintf(AttributeApi::ATTRIBUTES_URI),
             new Response($this->getFileContent('attributes_for_options.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'clothing_size'),
+            '/'.sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'clothing_size'),
             new Response($this->getFileContent('attribute_options_clothing_size.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'collection'),
+            '/'.sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'collection'),
             new Response($this->getFileContent('attribute_options_collection.json'), [], HttpResponse::HTTP_OK)
         );
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'color'),
+            '/'.sprintf(AttributeOptionApi::ATTRIBUTE_OPTIONS_URI, 'color'),
             new Response($this->getFileContent('attribute_options_color.json'), [], HttpResponse::HTTP_OK)
         );
     }

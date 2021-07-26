@@ -203,7 +203,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
         while ($results = $query->fetchAll()) {
             foreach ($results as $result) {
-                $resource = \json_decode($result['values'], true);
+                $resource = json_decode($result['values'], true);
 
                 try {
                     $this->dispatcher->dispatch(new BeforeProcessingProductEvent($resource));
@@ -225,7 +225,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
             }
 
             $processedCount += \count($results);
-            $this->logger->info(\sprintf('Processed %d products out of %d.', $processedCount, $totalItemsCount));
+            $this->logger->info(sprintf('Processed %d products out of %d.', $processedCount, $totalItemsCount));
             $query = $this->prepareSelectQuery(ProductModelPayload::SELECT_PAGINATION_SIZE, $processedCount);
             $query->execute();
         }
@@ -237,20 +237,20 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
     private function countTotalProducts(): int
     {
-        $query = $this->entityManager->getConnection()->prepare(\sprintf(
+        $query = $this->entityManager->getConnection()->prepare(sprintf(
             'SELECT count(id) FROM `%s`',
             ProductModelPayload::TEMP_AKENEO_TABLE_NAME
         ));
         $query->execute();
 
-        return (int) \current($query->fetch());
+        return (int) current($query->fetch());
     }
 
     private function prepareSelectQuery(
         int $limit = ProductPayload::SELECT_PAGINATION_SIZE,
         int $offset = 0
     ): Statement {
-        $query = $this->entityManager->getConnection()->prepare(\sprintf(
+        $query = $this->entityManager->getConnection()->prepare(sprintf(
             'SELECT `values`
              FROM `%s`
              LIMIT :limit
@@ -352,7 +352,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
             }
 
             if (null === $productName) {
-                $productName = \sprintf('[%s]', $product->getCode());
+                $productName = sprintf('[%s]', $product->getCode());
                 ++$missingNameTranslationCount;
             }
 
@@ -371,7 +371,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
             if ($missingNameTranslationCount > 0) {
                 //Multiple product has the same name
-                $productTranslation->setSlug(\sprintf(
+                $productTranslation->setSlug(sprintf(
                     '%s-%s-%d',
                     $resource['code'],
                     $this->productSlugGenerator->generate($productName),
@@ -382,7 +382,7 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
             }
 
             //Multiple product has the same name
-            $productTranslation->setSlug(\sprintf(
+            $productTranslation->setSlug(sprintf(
                 '%s-%s',
                 $resource['code'],
                 $this->productSlugGenerator->generate($productName)
@@ -404,7 +404,9 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
 
     private function addProductGroup(array &$resource, ProductInterface $product): void
     {
-        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $resource['parent']]);
+        $productGroup = $this->productGroupRepository->findOneBy([
+            'productParent' => $resource['parent'],
+        ]);
 
         if ($productGroup instanceof ProductGroup && 0 === $this->productGroupRepository->isProductInProductGroup($product, $productGroup)) {
             $productGroup->addProduct($product);
@@ -414,7 +416,9 @@ final class AddOrUpdateProductModelTask implements AkeneoTaskInterface
     private function setMainTaxon(array &$resource, ProductInterface $product): void
     {
         if (isset($resource['categories'][0])) {
-            $taxon = $this->taxonRepository->findOneBy(['code' => $resource['categories'][0]]);
+            $taxon = $this->taxonRepository->findOneBy([
+                'code' => $resource['categories'][0],
+            ]);
             if ($taxon instanceof TaxonInterface) {
                 $product->setMainTaxon($taxon);
             }

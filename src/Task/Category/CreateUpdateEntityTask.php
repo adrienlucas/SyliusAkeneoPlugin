@@ -80,7 +80,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
         $this->type = $payload->getType();
         $this->logger->notice(Messages::createOrUpdate($this->type));
 
-        if (!is_array($payload->getResources())) {
+        if (!\is_array($payload->getResources())) {
             throw new NoCategoryResourcesException('No resource found.');
         }
 
@@ -116,10 +116,10 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
 
                     $taxonTranslation->setName($label);
                     $slug = Transliterator::transliterate(
-                        \str_replace(
+                        str_replace(
                             '\'',
                             '-',
-                            \sprintf(
+                            sprintf(
                                 '%s-%s',
                                 $resource['code'],
                                 $label
@@ -161,7 +161,9 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
     private function getOrCreateEntity(string $code): TaxonInterface
     {
         /** @var TaxonInterface $taxon */
-        $taxon = $this->taxonRepository->findOneBy(['code' => $code]);
+        $taxon = $this->taxonRepository->findOneBy([
+            'code' => $code,
+        ]);
 
         if (!$taxon instanceof TaxonInterface) {
             /** @var TaxonInterface $taxon */

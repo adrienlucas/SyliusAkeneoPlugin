@@ -41,7 +41,7 @@ class ProductTranslationModelAkeneoAttributeProcessor extends AbstractModelAkene
 
     public function support(string $attributeCode, array $context = []): bool
     {
-        return \method_exists(
+        return method_exists(
             $this->model,
             $this->getSetterMethodFromAttributeCode($attributeCode)
         ) && $context['model'] instanceof ProductInterface;
@@ -50,17 +50,17 @@ class ProductTranslationModelAkeneoAttributeProcessor extends AbstractModelAkene
     protected function getSetterMethodFromAttributeCode(string $attributeCode): string
     {
         if (\in_array($this->camelCaseToSnakeCaseNameConverter->normalize($attributeCode), self::NATIVE_PROPERTIES) ||
-            in_array($this->camelCaseToSnakeCaseNameConverter->denormalize($attributeCode), self::NATIVE_PROPERTIES)
+            \in_array($this->camelCaseToSnakeCaseNameConverter->denormalize($attributeCode), self::NATIVE_PROPERTIES)
         ) {
-            return $this->camelCaseToSnakeCaseNameConverter->denormalize(\sprintf(
+            return $this->camelCaseToSnakeCaseNameConverter->denormalize(sprintf(
                 'set%s',
-                \ucfirst($attributeCode)
+                ucfirst($attributeCode)
             ));
         }
 
-        return $this->camelCaseToSnakeCaseNameConverter->denormalize(\sprintf(
+        return $this->camelCaseToSnakeCaseNameConverter->denormalize(sprintf(
             'set%s%s',
-            \ucfirst($attributeCode),
+            ucfirst($attributeCode),
             self::CUSTOM_PROPERTIES_SUFFIX
         ));
     }

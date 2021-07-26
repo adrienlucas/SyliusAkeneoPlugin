@@ -161,15 +161,17 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
 
         while ($results = $query->fetchAll()) {
             foreach ($results as $result) {
-                $resource = \json_decode($result['values'], true);
+                $resource = json_decode($result['values'], true);
 
                 try {
                     /** @var ProductInterface $productModel */
-                    $productModel = $this->productRepository->findOneBy(['code' => $resource['parent']]);
+                    $productModel = $this->productRepository->findOneBy([
+                        'code' => $resource['parent'],
+                    ]);
 
                     //Skip product variant import if it does not have a parent model on Sylius
-                    if (!$productModel instanceof ProductInterface || !is_string($productModel->getCode())) {
-                        $this->logger->warning(\sprintf(
+                    if (!$productModel instanceof ProductInterface || !\is_string($productModel->getCode())) {
+                        $this->logger->warning(sprintf(
                             'Skipped product "%s" because model "%s" does not exist.',
                             $resource['identifier'],
                             $resource['parent'],
@@ -180,10 +182,12 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
 
                     $this->dispatcher->dispatch(new BeforeProcessingProductVariantEvent($resource, $productModel));
 
-                    $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $productModel->getCode()]);
+                    $productGroup = $this->productGroupRepository->findOneBy([
+                        'productParent' => $productModel->getCode(),
+                    ]);
 
                     if (!$productGroup instanceof ProductGroup) {
-                        $this->logger->warning(\sprintf(
+                        $this->logger->warning(sprintf(
                             'Skipped product "%s" because model "%s" does not exist as group.',
                             $resource['identifier'],
                             $resource['parent'],
@@ -195,7 +199,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
                     $variationAxes = $productGroup->getVariationAxes();
 
                     if (0 === \count($variationAxes)) {
-                        $this->logger->warning(\sprintf(
+                        $this->logger->warning(sprintf(
                             'Skipped product "%s" because group has no variation axis.',
                             $resource['identifier'],
                         ));
@@ -213,7 +217,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
             }
 
             $processedCount += \count($results);
-            $this->logger->info(\sprintf('Processed %d products out of %d.', $processedCount, $totalItemsCount));
+            $this->logger->info(sprintf('Processed %d products out of %d.', $processedCount, $totalItemsCount));
             $query = $this->prepareSelectQuery(false, ProductPayload::SELECT_PAGINATION_SIZE, $processedCount);
             $query->execute();
         }
@@ -265,11 +269,13 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
             }
 
             /** @var ProductOptionInterface $productOption */
-            $productOption = $this->productOptionRepository->findOneBy(['code' => $attributeCode]);
+            $productOption = $this->productOptionRepository->findOneBy([
+                'code' => $attributeCode,
+            ]);
 
             //We cannot create the variant if the option does not exist
             if (!$productOption instanceof ProductOptionInterface) {
-                $this->logger->warning(\sprintf(
+                $this->logger->warning(sprintf(
                     'Skipped ProductVariant "%s" creation because ProductOption "%s" does not exist.',
                     $variantCode,
                     $attributeCode
@@ -315,7 +321,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
             ]);
 
             if (!$productOptionValue instanceof ProductOptionValueInterface) {
-                $this->logger->warning(\sprintf(
+                $this->logger->warning(sprintf(
                     'Skipped variant value %s for option %s on variant %s because ProductOptionValue does not exist.',
                     $value,
                     $productOption->getCode(),
@@ -368,13 +374,13 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
         if (!\is_array($data)) {
             return ProductOptionManager::getOptionValueCodeFromProductOption(
                 $productOption,
-                CreateUpdateDeleteTask::AKENEO_PREFIX . $data
+                CreateUpdateDeleteTask::AKENEO_PREFIX.$data
             );
         }
 
         return ProductOptionManager::getOptionValueCodeFromProductOption(
             $productOption,
-            CreateUpdateDeleteTask::AKENEO_PREFIX . \implode('_', $data)
+            CreateUpdateDeleteTask::AKENEO_PREFIX.implode('_', $data)
         );
     }
 
@@ -387,7 +393,7 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
             return $data;
         }
 
-        return \implode(' ', $data);
+        return implode(' ', $data);
     }
 
     private function updateImages(ProductPayload $payload, array $resource, ProductVariantInterface $productVariant): void
@@ -403,7 +409,9 @@ final class CreateConfigurableProductEntitiesTask extends AbstractCreateProductE
 
     private function getOrCreateEntity(string $variantCode, ProductInterface $productModel): ProductVariantInterface
     {
-        $productVariant = $this->productVariantRepository->findOneBy(['code' => $variantCode]);
+        $productVariant = $this->productVariantRepository->findOneBy([
+            'code' => $variantCode,
+        ]);
 
         if (!$productVariant instanceof ProductVariantInterface) {
             /** @var ProductVariantInterface $productVariant */

@@ -44,7 +44,7 @@ abstract class AbstractPayload implements PipelinePayloadInterface
     public function getType(): string
     {
         try {
-            return \mb_substr((new ReflectionClass($this))->getShortName(), 0, -7);
+            return mb_substr((new ReflectionClass($this))->getShortName(), 0, -7);
         } catch (\ReflectionException $e) {
             return '';
         }

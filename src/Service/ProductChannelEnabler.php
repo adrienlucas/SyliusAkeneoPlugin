@@ -71,7 +71,7 @@ final class ProductChannelEnabler implements ProductChannelEnablerInterface
     private function addProductToChannel(ProductInterface $product, ChannelInterface $channel): void
     {
         $product->addChannel($channel);
-        $this->logger->info(\sprintf(
+        $this->logger->info(sprintf(
             'Enabled channel "%s" for product "%s"',
             $channel->getCode(),
             $product->getCode()
@@ -108,10 +108,10 @@ final class ProductChannelEnabler implements ProductChannelEnablerInterface
                 throw new \LogicException('Enabled channels attribute is empty.');
             }
 
-            return \current($attributeValue)['data'];
+            return current($attributeValue)['data'];
         }
 
-        throw new NoAttributeResourcesException(\sprintf('Enabled channels attribute not found for product "%s".', $product->getCode()));
+        throw new NoAttributeResourcesException(sprintf('Enabled channels attribute not found for product "%s".', $product->getCode()));
     }
 
     private function handleByAkeneoEnabledChannelsAttribute(
@@ -128,9 +128,11 @@ final class ProductChannelEnabler implements ProductChannelEnablerInterface
         $enabledChannels = $this->getEnabledChannelsAttributeData($productConfiguration, $product, $resource);
 
         foreach ($enabledChannels as $enabledChannel) {
-            $channel = $this->channelRepository->findOneBy(['code' => $enabledChannel]);
+            $channel = $this->channelRepository->findOneBy([
+                'code' => $enabledChannel,
+            ]);
             if (!$channel instanceof ChannelInterface) {
-                $this->logger->warning(\sprintf(
+                $this->logger->warning(sprintf(
                     'Channel "%s" could not be activated for product "%s" because the channel was not found in the database.',
                     $enabledChannel,
                     $product->getCode()

@@ -75,7 +75,7 @@ final class CreateProductAssociationTask extends AbstractCreateProductEntities i
 
         while ($results = $query->fetchAllNumeric()) {
             foreach ($results as $result) {
-                $resource = \json_decode($result[0], true);
+                $resource = json_decode($result[0], true);
 
                 $this->createAssociationForEachAssociations($resource);
             }
@@ -86,7 +86,9 @@ final class CreateProductAssociationTask extends AbstractCreateProductEntities i
 
     private function createAssociationForEachAssociations(array $resource): void
     {
-        $product = $this->productRepository->findOneBy(['code' => $resource['identifier']]);
+        $product = $this->productRepository->findOneBy([
+            'code' => $resource['identifier'],
+        ]);
         if (!$product instanceof ProductInterface) {
             $this->logger->critical(sprintf('Product %s not found in database, association skip.', $resource['identifier']));
 
@@ -105,7 +107,9 @@ final class CreateProductAssociationTask extends AbstractCreateProductEntities i
         string $associationTypeCode,
         array $associations
     ): void {
-        $productAssociationType = $this->productAssociationTypeRepository->findOneBy(['code' => $associationTypeCode]);
+        $productAssociationType = $this->productAssociationTypeRepository->findOneBy([
+            'code' => $associationTypeCode,
+        ]);
         if (!$productAssociationType instanceof ProductAssociationTypeInterface) {
             $this->logger->warning(sprintf('Product association type %s not found.', $associationTypeCode));
 
@@ -115,7 +119,7 @@ final class CreateProductAssociationTask extends AbstractCreateProductEntities i
         $productAssociation = $this->productAssociationRepository->findOneBy(
             [
                 'owner' => $product,
-                'type' => $productAssociationType
+                'type' => $productAssociationType,
             ]
         );
 
@@ -138,7 +142,9 @@ final class CreateProductAssociationTask extends AbstractCreateProductEntities i
 
     private function associateProduct(ProductAssociationInterface $productAssociation, string $associatedProduct): void
     {
-        $product = $this->productRepository->findOneBy(['code' => $associatedProduct]);
+        $product = $this->productRepository->findOneBy([
+            'code' => $associatedProduct,
+        ]);
         if (!$product instanceof ProductInterface) {
             $this->logger->warning(sprintf('Product %s not and could not be associated', $associatedProduct));
 

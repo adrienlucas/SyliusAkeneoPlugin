@@ -52,7 +52,7 @@ final class EnableDisableProductModelTaskTest extends AbstractTaskTest
 
         while ($results = $query->fetchAll()) {
             foreach ($results as $result) {
-                $resource = \json_decode($result['values'], true);
+                $resource = json_decode($result['values'], true);
 
                 if (null === $resource['parent']) {
                     continue;
@@ -76,9 +76,13 @@ final class EnableDisableProductModelTaskTest extends AbstractTaskTest
         $enableDisableProductModelTask->__invoke($productModelPayload);
 
         /** @var Product $product */
-        $product = self::$container->get('sylius.repository.product')->findOneBy(['code' => $productBase['code']]);
+        $product = self::$container->get('sylius.repository.product')->findOneBy([
+            'code' => $productBase['code'],
+        ]);
         $this->assertCount(1, $product->getChannels());
-        $channel = self::$container->get('sylius.repository.channel')->findOneBy(['code' => 'FASHION_WEB']);
+        $channel = self::$container->get('sylius.repository.channel')->findOneBy([
+            'code' => 'FASHION_WEB',
+        ]);
         $this->assertContains($channel, $product->getChannels());
     }
 }

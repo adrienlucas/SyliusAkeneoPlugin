@@ -39,11 +39,11 @@ final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
         $this->taskProvider = self::$container->get(AkeneoTaskProvider::class);
         $this->productGroupRepository = self::$container->get('akeneo.repository.product_group');
         $this->server->setResponseOfPath(
-            '/' . sprintf(FamilyVariantApi::FAMILY_VARIANT_URI, 'clothing', 'clothing_color_size'),
+            '/'.sprintf(FamilyVariantApi::FAMILY_VARIANT_URI, 'clothing', 'clothing_color_size'),
             new Response($this->getFileContent('family_variant_clothing_color_size.json'), [], HttpResponse::HTTP_OK)
         );
         $this->server->setResponseOfPath(
-            '/' . sprintf(ProductModelApi::PRODUCT_MODELS_URI),
+            '/'.sprintf(ProductModelApi::PRODUCT_MODELS_URI),
             new Response($this->getFileContent('product_models_caelus.json'), [], HttpResponse::HTTP_OK)
         );
 
@@ -64,7 +64,9 @@ final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
         $addProductGroupsTask = $this->taskProvider->get(AddProductGroupsTask::class);
         $productGroupsPayload = $addProductGroupsTask->__invoke($productsPayload);
         /** @var ProductGroup $productGroup */
-        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => 'caelus']);
+        $productGroup = $this->productGroupRepository->findOneBy([
+            'productParent' => 'caelus',
+        ]);
         Assert::assertInstanceOf(ProductGroup::class, $productGroup);
 
         /** @var AddFamilyVariationAxeTask $addFamilyVariationAxes */
@@ -74,14 +76,14 @@ final class AddFamilyVariationAxeTaskTest extends AbstractTaskTest
         Assert::assertNotEmpty($productGroup->getVariationAxes());
 
         $this->server->setResponseOfPath(
-            '/' . sprintf(FamilyVariantApi::FAMILY_VARIANT_URI, 'clothing', 'clothing_color_size'),
+            '/'.sprintf(FamilyVariantApi::FAMILY_VARIANT_URI, 'clothing', 'clothing_color_size'),
             new ResponseStack(
                 new Response($this->getFileContent('family_variant_clothing_color_size.json'), [], HttpResponse::HTTP_OK)
             )
         );
         $familyVariant = $productsPayload->getAkeneoPimClient()->getFamilyVariantApi()->get('clothing', 'clothing_color_size');
         foreach ($familyVariant['variant_attribute_sets'] as $key => $variantAttributeSet) {
-            if (count($familyVariant['variant_attribute_sets']) !== $variantAttributeSet['level']) {
+            if (\count($familyVariant['variant_attribute_sets']) !== $variantAttributeSet['level']) {
                 continue;
             }
             foreach ($variantAttributeSet['axes'] as $axe) {

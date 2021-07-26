@@ -45,7 +45,7 @@ final class RetrieveAssociationTask implements AkeneoTaskInterface
 
         $payload->setResources($resources);
 
-        $this->logger->info(Messages::totalToImport($payload->getType(), count($resources->getItems())));
+        $this->logger->info(Messages::totalToImport($payload->getType(), \count($resources->getItems())));
 
         return $payload;
     }

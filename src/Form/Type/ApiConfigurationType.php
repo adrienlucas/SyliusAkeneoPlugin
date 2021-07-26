@@ -47,11 +47,15 @@ final class ApiConfigurationType extends AbstractType
                 'label' => 'sylius.ui.admin.akeneo.api_configuration.is_enterprise',
             ])
             ->add('testCredentials', SubmitType::class, [
-                'attr' => ['class' => 'ui secondary button'],
+                'attr' => [
+                    'class' => 'ui secondary button',
+                ],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'sylius.ui.save',
-                'attr' => ['class' => 'ui primary button'],
+                'attr' => [
+                    'class' => 'ui primary button',
+                ],
             ])
         ;
     }

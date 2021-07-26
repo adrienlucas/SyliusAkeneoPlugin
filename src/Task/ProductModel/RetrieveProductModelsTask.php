@@ -67,12 +67,12 @@ final class RetrieveProductModelsTask implements AkeneoTaskInterface
             if (empty($item['code'])) {
                 ++$noCodeCount;
             }
-            $sql = \sprintf(
+            $sql = sprintf(
                 'INSERT INTO `%s` (`values`) VALUES (:values);',
                 ProductModelPayload::TEMP_AKENEO_TABLE_NAME,
             );
             $stmt = $this->entityManager->getConnection()->prepare($sql);
-            $stmt->bindValue('values', \json_encode($item));
+            $stmt->bindValue('values', json_encode($item));
             $stmt->execute();
         }
 

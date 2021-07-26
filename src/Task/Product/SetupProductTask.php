@@ -28,7 +28,7 @@ class SetupProductTask implements AkeneoTaskInterface
     {
         $this->taskProvider->get(TearDownProductTask::class)->__invoke($payload);
 
-        $query = \sprintf(
+        $query = sprintf(
             'CREATE TABLE `%s` (
               `id` INT NOT NULL AUTO_INCREMENT,
               `values` JSON NULL,

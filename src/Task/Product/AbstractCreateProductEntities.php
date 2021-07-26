@@ -82,7 +82,9 @@ class AbstractCreateProductEntities
     protected function getOrCreateSimpleVariant(ProductInterface $product): ProductVariantInterface
     {
         /** @var ProductVariantInterface $productVariant */
-        $productVariant = $this->productVariantRepository->findOneBy(['code' => $product->getCode()]);
+        $productVariant = $this->productVariantRepository->findOneBy([
+            'code' => $product->getCode(),
+        ]);
 
         if (!$productVariant instanceof ProductVariantInterface) {
             $productVariant = $this->productVariantFactory->createForProduct($product);
@@ -116,14 +118,14 @@ class AbstractCreateProductEntities
 
     protected function countTotalProducts(bool $isSimple): int
     {
-        $query = $this->entityManager->getConnection()->prepare(\sprintf(
+        $query = $this->entityManager->getConnection()->prepare(sprintf(
             'SELECT count(id) FROM `%s` WHERE is_simple = :is_simple',
             ProductPayload::TEMP_AKENEO_TABLE_NAME
         ));
         $query->bindValue('is_simple', $isSimple, ParameterType::BOOLEAN);
         $query->execute();
 
-        return (int) \current($query->fetch());
+        return (int) current($query->fetch());
     }
 
     protected function prepareSelectQuery(
@@ -131,7 +133,7 @@ class AbstractCreateProductEntities
         int $limit = ProductPayload::SELECT_PAGINATION_SIZE,
         int $offset = 0
     ): Statement {
-        $query = $this->entityManager->getConnection()->prepare(\sprintf(
+        $query = $this->entityManager->getConnection()->prepare(sprintf(
             'SELECT `values` 
              FROM `%s` 
              WHERE is_simple = :is_simple
@@ -192,7 +194,7 @@ class AbstractCreateProductEntities
                 throw new \LogicException('Price attribute is empty.');
             }
 
-            return \current($attributeValue)['data'];
+            return current($attributeValue)['data'];
         }
 
         throw new NoAttributeResourcesException('Price attribute not found.');

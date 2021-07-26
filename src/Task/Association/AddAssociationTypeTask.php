@@ -53,7 +53,9 @@ final class AddAssociationTypeTask implements AkeneoTaskInterface
         }
 
         foreach ($resources->getItems() as $resource) {
-            $productAssociationType = $this->productAssociationTypeRepository->findOneBy(['code' => $resource['code']]);
+            $productAssociationType = $this->productAssociationTypeRepository->findOneBy([
+                'code' => $resource['code'],
+            ]);
             if (!$productAssociationType instanceof ProductAssociationTypeInterface) {
                 /** @var ProductAssociationTypeInterface $productAssociationType */
                 $productAssociationType = $this->productAssociationTypeFactory->createNew();

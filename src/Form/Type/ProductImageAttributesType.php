@@ -17,12 +17,16 @@ final class ProductImageAttributesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('akeneoAttributes', AttributeCodeChoiceType::class, ['label' => 'sylius.ui.admin.akeneo.products.akeneo_attributes'])
+            ->add('akeneoAttributes', AttributeCodeChoiceType::class, [
+                'label' => 'sylius.ui.admin.akeneo.products.akeneo_attributes',
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => ProductConfigurationAkeneoImageAttribute::class]);
+        $resolver->setDefaults([
+            'data_class' => ProductConfigurationAkeneoImageAttribute::class,
+        ]);
     }
 }

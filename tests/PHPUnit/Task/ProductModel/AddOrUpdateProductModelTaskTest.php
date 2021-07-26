@@ -67,7 +67,7 @@ final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
 
         while ($results = $query->fetchAll()) {
             foreach ($results as $result) {
-                $resource = \json_decode($result['values'], true);
+                $resource = json_decode($result['values'], true);
 
                 if (null === $resource['parent']) {
                     continue;
@@ -88,14 +88,18 @@ final class AddOrUpdateProductModelTaskTest extends AbstractTaskTest
         Assert::assertInstanceOf(PipelinePayloadInterface::class, $result);
 
         /** @var Product $productFinal */
-        $productFinal = $this->productRepository->findOneBy(['code' => $productBase['code']]);
+        $productFinal = $this->productRepository->findOneBy([
+            'code' => $productBase['code'],
+        ]);
         Assert::assertInstanceOf(Product::class, $productFinal);
         $this->assertGreaterThan(0, $productFinal->getImages()->count());
         foreach ($productFinal->getImages() as $image) {
-            $this->assertFileExists(self::$kernel->getProjectDir() . '/public/media/image/' . $image->getPath());
+            $this->assertFileExists(self::$kernel->getProjectDir().'/public/media/image/'.$image->getPath());
         }
 
-        $productGroup = $this->productGroupRepository->findOneBy(['productParent' => $productBase['parent']]);
+        $productGroup = $this->productGroupRepository->findOneBy([
+            'productParent' => $productBase['parent'],
+        ]);
         Assert::assertInstanceOf(ProductGroup::class, $productGroup);
     }
 

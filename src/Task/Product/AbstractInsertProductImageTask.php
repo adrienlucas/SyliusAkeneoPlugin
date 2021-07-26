@@ -67,9 +67,9 @@ class AbstractInsertProductImageTask
                 foreach ($images as $image) {
                     try {
                         $imageResponse = $payload->getAkeneoPimClient()->getProductMediaFileApi()->download($image['data']);
-                        $imageName = \basename($image['data']);
-                        $imagePath = \sys_get_temp_dir() . '/' . $imageName;
-                        \file_put_contents($imagePath, $imageResponse->getBody()->getContents());
+                        $imageName = basename($image['data']);
+                        $imagePath = sys_get_temp_dir().'/'.$imageName;
+                        file_put_contents($imagePath, $imageResponse->getBody()->getContents());
                         $uploadedImage = new UploadedFile($imagePath, $imageName);
 
                         /** @var ImageInterface $productImage */
@@ -80,7 +80,7 @@ class AbstractInsertProductImageTask
 
                         $object->addImage($productImage);
 
-                        \unlink($imagePath);
+                        unlink($imagePath);
                     } catch (\Throwable $throwable) {
                         $this->logger->warning($throwable->getMessage());
                     }
@@ -106,7 +106,9 @@ class AbstractInsertProductImageTask
     {
         $repository = $this->entityManager->getRepository(ProductConfigurationImageMapping::class);
         /** @var ProductConfigurationImageMapping|null $mapping */
-        $mapping = $repository->findOneBy(['akeneoAttribute' => $attributeCode]);
+        $mapping = $repository->findOneBy([
+            'akeneoAttribute' => $attributeCode,
+        ]);
 
         return ($mapping instanceof ProductConfigurationImageMapping) ? $mapping->getSyliusAttribute() : null;
     }

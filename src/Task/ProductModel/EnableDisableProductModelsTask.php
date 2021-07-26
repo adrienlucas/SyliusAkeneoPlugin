@@ -57,11 +57,13 @@ final class EnableDisableProductModelsTask implements AkeneoTaskInterface
 
         while ($results = $query->fetchAll()) {
             foreach ($results as $result) {
-                $resource = \json_decode($result['values'], true);
+                $resource = json_decode($result['values'], true);
 
                 try {
                     /** @var ProductInterface $product */
-                    $product = $this->productRepository->findOneBy(['code' => $resource['code']]);
+                    $product = $this->productRepository->findOneBy([
+                        'code' => $resource['code'],
+                    ]);
 
                     if (!$product instanceof ProductInterface) {
                         continue;
@@ -85,7 +87,7 @@ final class EnableDisableProductModelsTask implements AkeneoTaskInterface
         int $limit = ProductPayload::SELECT_PAGINATION_SIZE,
         int $offset = 0
     ): Statement {
-        $query = $this->entityManager->getConnection()->prepare(\sprintf(
+        $query = $this->entityManager->getConnection()->prepare(sprintf(
             'SELECT `values` 
              FROM `%s` 
              LIMIT :limit

@@ -16,7 +16,7 @@ final class SettingsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $entries = \array_keys($options['data']);
+        $entries = array_keys($options['data']);
         foreach ($entries as $name) {
             $configuration = SettingType::AKENEO_SETTINGS[$name];
             // If setting's value exist in data and setting isn't disabled
@@ -29,8 +29,8 @@ final class SettingsType extends AbstractType
             if (!empty($fieldOptions['constraints']) && \is_array($fieldOptions['constraints'])) {
                 $constraints = [];
                 foreach ($fieldOptions['constraints'] as $class => $constraintOptions) {
-                    if (!\class_exists($class)) {
-                        throw new \InvalidArgumentException(\sprintf('Constraint class "%s" not found', $class));
+                    if (!class_exists($class)) {
+                        throw new \InvalidArgumentException(sprintf('Constraint class "%s" not found', $class));
                     }
                     $constraints[] = new $class($constraintOptions);
                 }
@@ -39,16 +39,16 @@ final class SettingsType extends AbstractType
             }
 
             // Label I18n
-            $fieldOptions['label'] = 'sylius.ui.admin.akeneo.' . $name;
+            $fieldOptions['label'] = 'sylius.ui.admin.akeneo.'.$name;
             $fieldOptions['translation_domain'] = 'messages';
 
             // Choices I18n
             if (!empty($fieldOptions['choices'])) {
-                $fieldOptions['choices'] = \array_map(
+                $fieldOptions['choices'] = array_map(
                     static function ($label) use ($fieldOptions) {
-                        return $fieldOptions['label'] . '_choices.' . $label;
+                        return $fieldOptions['label'].'_choices.'.$label;
                     },
-                    \array_combine($fieldOptions['choices'], $fieldOptions['choices'])
+                    array_combine($fieldOptions['choices'], $fieldOptions['choices'])
                 );
             }
             $builder->add($name, $fieldType, $fieldOptions);

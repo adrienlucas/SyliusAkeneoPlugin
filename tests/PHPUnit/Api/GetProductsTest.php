@@ -21,7 +21,7 @@ final class GetProductsTest extends ApiTestCase
     public function testGetProducts(): void
     {
         $this->server->setResponseOfPath(
-            '/' . ProductApi::PRODUCTS_URI,
+            '/'.ProductApi::PRODUCTS_URI,
             new ResponseStack(
                 new Response($this->getProducts(), [], HttpResponse::HTTP_OK),
                 new Response($this->getProducts(), [], HttpResponse::HTTP_OK)

@@ -18,13 +18,19 @@ final class ProductImagesMappingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('syliusAttribute', TextType::class, ['label' => 'sylius.ui.admin.akeneo.products.sylius_attribute'])
-            ->add('akeneoAttribute', AttributeCodeChoiceType::class, ['label' => 'sylius.ui.admin.akeneo.products.akeneo_attribute'])
+            ->add('syliusAttribute', TextType::class, [
+                'label' => 'sylius.ui.admin.akeneo.products.sylius_attribute',
+            ])
+            ->add('akeneoAttribute', AttributeCodeChoiceType::class, [
+                'label' => 'sylius.ui.admin.akeneo.products.akeneo_attribute',
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => ProductConfigurationImageMapping::class]);
+        $resolver->setDefaults([
+            'data_class' => ProductConfigurationImageMapping::class,
+        ]);
     }
 }

@@ -136,7 +136,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
                     $this->setAttributeTranslations($resource['labels'], $attribute);
                     $this->entityManager->flush();
                 } catch (UnsupportedAttributeTypeException $unsupportedAttributeTypeException) {
-                    $this->logger->warning(\sprintf(
+                    $this->logger->warning(sprintf(
                         '%s: %s',
                         $resource['code'],
                         $unsupportedAttributeTypeException->getMessage()
@@ -166,7 +166,7 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
             $attribute->setFallbackLocale($usedLocalesOnBothPlatform);
 
             if (!isset($labels[$usedLocalesOnBothPlatform])) {
-                $attribute->setName(\sprintf('[%s]', $attribute->getCode()));
+                $attribute->setName(sprintf('[%s]', $attribute->getCode()));
 
                 continue;
             }
@@ -178,7 +178,9 @@ final class CreateUpdateEntityTask implements AkeneoTaskInterface
     private function getOrCreateEntity(string $attributeCode, TypeMatcherInterface $attributeType): AttributeInterface
     {
         /** @var AttributeInterface $attribute */
-        $attribute = $this->productAttributeRepository->findOneBy(['code' => $attributeCode]);
+        $attribute = $this->productAttributeRepository->findOneBy([
+            'code' => $attributeCode,
+        ]);
 
         if (!$attribute instanceof AttributeInterface) {
             if (!$this->productAttributeFactory instanceof AttributeFactory) {
