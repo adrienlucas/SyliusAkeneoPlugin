@@ -21,6 +21,7 @@ class TearDownProductTask implements AkeneoTaskInterface
 
     public function __invoke(PipelinePayloadInterface $payload): PipelinePayloadInterface
     {
+        $this->entityManager->getConnection()->connect();
         $exists = $this->entityManager->getConnection()->getSchemaManager()->tablesExist([ProductPayload::TEMP_AKENEO_TABLE_NAME]);
 
         if ($exists) {

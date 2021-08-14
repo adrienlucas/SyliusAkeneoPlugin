@@ -53,10 +53,6 @@ final class FamilyRetriever
                     $this->familiesByVariant[$familyVariant['code']] = $family['code'];
                 }
             }
-
-            if (array_key_exists($familyVariantCode, $this->familiesByVariant)) {
-                return $this->familiesByVariant[$familyVariantCode];
-            }
         } catch (\Throwable $exception) {
             $this->logger->warning($exception->getMessage());
         }
